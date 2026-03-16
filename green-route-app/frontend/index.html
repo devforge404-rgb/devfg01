@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Route Finder</title>
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-bg"></div>
+      
+      <div class="sidebar-content">
+        <header>
+          <h1><i class="fa-solid fa-leaf text-accent"></i> GreenRoute</h1>
+          <p class="tagline">Carbon-neutral mission control.</p>
+        </header>
+
+        <form id="route-form">
+          <div class="input-group">
+            <label for="start-location">Start Location</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-location-dot"></i>
+              <input type="text" id="start-location" placeholder="e.g. Manchester" required>
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <label for="end-location">End Location</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-location-crosshairs"></i>
+              <input type="text" id="end-location" placeholder="e.g. London" required>
+            </div>
+          </div>
+
+          <button type="submit" id="submit-btn" class="btn-primary">
+            <span class="btn-text">Find Green Route <i class="fa-solid fa-arrow-right"></i></span>
+            <span class="btn-loader hidden"><i class="fa-solid fa-circle-notch fa-spin"></i> Analysing route...</span>
+          </button>
+        </form>
+        
+        <div id="error-message" class="error-banner hidden"></div>
+
+        <!-- Results Card -->
+        <div id="results-card" class="results-card hidden">
+          <div class="score-header">
+            <div class="score-badge" id="score-badge">
+              <svg viewBox="0 0 36 36" class="circular-chart">
+                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="circle" id="score-ring" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              </svg>
+              <div class="score-info">
+                <span id="rating-letter" class="rating-letter">--</span>
+              </div>
+            </div>
+            <div class="score-titles">
+              <h3>Green Score</h3>
+              <p>Index: <span id="score-value" class="mono-text">0.000</span></p>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-item">
+              <i class="fa-solid fa-route stat-icon"></i>
+              <div class="stat-content">
+                <span class="stat-label">Distance</span>
+                <span class="stat-val mono-text"><span id="val-distance">--</span> km</span>
+              </div>
+            </div>
+            <div class="stat-item">
+              <i class="fa-solid fa-clock stat-icon"></i>
+              <div class="stat-content">
+                <span class="stat-label">Duration</span>
+                <span class="stat-val mono-text"><span id="val-duration">--</span> min</span>
+              </div>
+            </div>
+            <div class="stat-item">
+              <i class="fa-solid fa-smog stat-icon"></i>
+              <div class="stat-content">
+                <span class="stat-label">CO₂ Output</span>
+                <span class="stat-val mono-text"><span id="val-co2">--</span> kg</span>
+              </div>
+            </div>
+            <div class="stat-item">
+              <i class="fa-solid fa-car-side stat-icon"></i>
+              <div class="stat-content">
+                <span class="stat-label">Traffic Level</span>
+                <span class="stat-val mono-text" id="val-traffic">--</span>
+              </div>
+            </div>
+            <div class="stat-item full-width">
+               <i class="fa-solid fa-mountain stat-icon"></i>
+               <div class="stat-content">
+                 <span class="stat-label">Elevation Gain</span>
+                 <span class="stat-val mono-text"><span id="val-elevation">--</span> m</span>
+               </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- Map Area -->
+    <main class="map-area">
+      <div id="map"></div>
+    </main>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="script.js"></script>
+</body>
+</html>
